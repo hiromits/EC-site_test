@@ -46,14 +46,31 @@ class PremiumECommerceApp {
           // アクティブリンクの更新
           navLinks.forEach(l => l.classList.remove('active'));
           link.classList.add('active');
+          
+          // モバイルメニューを閉じる
+          if (navMenu && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            menuToggle?.classList.remove('active');
+          }
         }
       });
     });
 
     // モバイルメニュー
-    menuToggle?.addEventListener('click', () => {
+    menuToggle?.addEventListener('click', (e) => {
+      e.stopPropagation();
       navMenu.classList.toggle('active');
       menuToggle.classList.toggle('active');
+    });
+    
+    // メニュー外をクリックして閉じる
+    document.addEventListener('click', (e) => {
+      if (navMenu && navMenu.classList.contains('active')) {
+        if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          navMenu.classList.remove('active');
+          menuToggle?.classList.remove('active');
+        }
+      }
     });
 
     // スクロール時のナビゲーション背景変更
