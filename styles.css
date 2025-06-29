@@ -2532,6 +2532,10 @@ a:focus-visible {
   transform: scale(0.95);
 }
 
+.quantity-btn * {
+  pointer-events: none;
+}
+
 .quantity-number {
   font-size: var(--font-sm);
   font-weight: 500;
@@ -2549,11 +2553,20 @@ a:focus-visible {
   border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
   flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cart-item-remove:hover {
   background: var(--color-error);
   color: var(--color-white);
+}
+
+.cart-item-remove svg {
+  pointer-events: none;
 }
 
 .cart-footer {

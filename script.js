@@ -18,6 +18,7 @@ class PremiumECommerceApp {
     this.setupParallaxEffects();
     this.setupCursorEffects();
     this.setupLoadingAnimations();
+    this.setupHeroButtons();
     
     // Intersection Observer for animations
     this.observeElements();
@@ -965,17 +966,23 @@ class PremiumECommerceApp {
     const removeBtn = cartItem.querySelector('.cart-item-remove');
 
     minusBtn?.addEventListener('click', (e) => {
-      const id = parseInt(e.target.getAttribute('data-id'));
+      e.stopPropagation();
+      const button = e.target.closest('.quantity-btn');
+      const id = parseInt(button.getAttribute('data-id'));
       this.updateQuantity(id, -1);
     });
 
     plusBtn?.addEventListener('click', (e) => {
-      const id = parseInt(e.target.getAttribute('data-id'));
+      e.stopPropagation();
+      const button = e.target.closest('.quantity-btn');
+      const id = parseInt(button.getAttribute('data-id'));
       this.updateQuantity(id, 1);
     });
 
     removeBtn?.addEventListener('click', (e) => {
-      const id = parseInt(e.target.getAttribute('data-id'));
+      e.stopPropagation();
+      const button = e.target.closest('.cart-item-remove');
+      const id = parseInt(button.getAttribute('data-id'));
       this.removeFromCart(id);
     });
   }
@@ -1261,6 +1268,57 @@ class PremiumECommerceApp {
           }, 200);
         }
       });
+    });
+  }
+
+  // ヒーローボタン設定
+  setupHeroButtons() {
+    const purchaseBtn = document.querySelector('.btn-primary.hero-btn');
+    const tryBtn = document.querySelector('.btn-secondary.hero-btn');
+    
+    purchaseBtn?.addEventListener('click', () => {
+      // 鍵アプリの商品情報を直接カートに追加
+      const lockAppProduct = {
+        id: Date.now(),
+        title: '鍵の閉め忘れ防止アプリ',
+        price: 100,
+        image: '🔐',
+        quantity: 1
+      };
+      
+      // 既存商品チェック
+      const existingProduct = this.cart.find(item => item.title === lockAppProduct.title);
+      
+      if (existingProduct) {
+        existingProduct.quantity++;
+      } else {
+        this.cart.push(lockAppProduct);
+      }
+      
+      // ボタンアニメーション
+      const originalText = purchaseBtn.innerHTML;
+      purchaseBtn.innerHTML = '<span>カートに追加済み!</span>';
+      purchaseBtn.style.background = 'linear-gradient(135deg, #34C759, #30A46C)';
+      
+      setTimeout(() => {
+        purchaseBtn.innerHTML = originalText;
+        purchaseBtn.style.background = '';
+      }, 2000);
+      
+      // カート更新
+      this.updateCart();
+      this.showCartAnimation();
+    });
+    
+    tryBtn?.addEventListener('click', () => {
+      // プロダクトセクションにスクロール
+      const productsSection = document.getElementById('products');
+      if (productsSection) {
+        productsSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
     });
   }
 
