@@ -29,6 +29,8 @@ class PremiumECommerceApp {
     const navLinks = document.querySelectorAll('.nav-link');
     const menuToggle = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
+    
+    console.log('Navigation setup:', { navLinks: navLinks.length, menuToggle, navMenu });
 
     // スムーズスクロール
     navLinks.forEach(link => {
@@ -58,9 +60,11 @@ class PremiumECommerceApp {
 
     // モバイルメニュー
     menuToggle?.addEventListener('click', (e) => {
+      console.log('Menu toggle clicked!');
       e.stopPropagation();
       navMenu.classList.toggle('active');
       menuToggle.classList.toggle('active');
+      console.log('Menu classes after toggle:', { menuActive: navMenu.classList.contains('active'), toggleActive: menuToggle.classList.contains('active') });
     });
     
     // メニュー外をクリックして閉じる

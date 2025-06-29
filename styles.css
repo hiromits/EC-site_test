@@ -252,6 +252,8 @@ body {
   border: none;
   padding: var(--space-md);
   cursor: pointer;
+  z-index: 1001;
+  position: relative;
 }
 
 .menu-toggle span {
@@ -2238,9 +2240,13 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .nav-menu {
+    display: none;
+  }
+  
   .menu-toggle {
-    display: flex;
+    display: flex !important;
   }
   
   .nav-menu {
