@@ -2433,8 +2433,36 @@ a:focus-visible {
 }
 
 .cart-item:hover {
-  background: var(--color-gray-100);
+  background: var(--color-gray-800);
   transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.cart-item:hover .cart-item-title {
+  color: var(--color-white);
+}
+
+.cart-item:hover .cart-item-price {
+  color: var(--color-white);
+}
+
+.cart-item:hover .quantity-number {
+  color: var(--color-white);
+}
+
+.cart-item:hover .cart-item-icon {
+  filter: brightness(1.2);
+}
+
+.cart-item:hover .quantity-btn {
+  background: var(--color-white);
+  border-color: var(--color-gray-200);
+  color: var(--color-gray-800);
+}
+
+.cart-item:hover .quantity-btn:hover {
+  background: var(--color-gray-100);
+  border-color: var(--color-gray-400);
 }
 
 .cart-item-image {
@@ -2593,7 +2621,7 @@ a:focus-visible {
   position: relative;
   background: none;
   border: none;
-  color: var(--text-primary);
+  color: var(--color-gray-800);
   cursor: pointer;
   padding: var(--space-sm);
   border-radius: var(--radius-sm);
@@ -2602,6 +2630,7 @@ a:focus-visible {
 
 .cart-btn:hover {
   background: var(--color-gray-100);
+  color: var(--color-gray-900);
 }
 
 .cart-count {
