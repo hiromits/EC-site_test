@@ -831,10 +831,12 @@ class PremiumECommerceApp {
     const cartSidebar = document.querySelector('.cart-sidebar');
     const cartClose = document.querySelector('.cart-close');
     const cartOverlay = document.querySelector('.cart-overlay');
+    const checkoutBtn = document.querySelector('.checkout-btn');
 
     cartBtn?.addEventListener('click', () => this.toggleCart());
     cartClose?.addEventListener('click', () => this.closeCart());
     cartOverlay?.addEventListener('click', () => this.closeCart());
+    checkoutBtn?.addEventListener('click', () => this.checkout());
 
     // ESCキーでカートを閉じる
     document.addEventListener('keydown', (e) => {
@@ -847,13 +849,20 @@ class PremiumECommerceApp {
   addToCart(productCard) {
     const productTitle = productCard.querySelector('.product-title').textContent;
     const productPrice = productCard.querySelector('.price-amount').textContent;
-    const productImage = productCard.querySelector('.product-preview').innerHTML;
+    const productType = productCard.getAttribute('data-product');
+    
+    // 商品タイプに応じたアイコンを設定
+    const productIcons = {
+      'lock-app': '🔐',
+      'todo-app': '✅',
+      'fruit-game': '🍎'
+    };
     
     const product = {
       id: Date.now(),
       title: productTitle,
       price: parseInt(productPrice.replace(/,/g, '')),
-      image: productImage,
+      image: productIcons[productType] || '📱',
       quantity: 1
     };
 
@@ -924,17 +933,24 @@ class PremiumECommerceApp {
     const cartItem = document.createElement('div');
     cartItem.className = 'cart-item';
     cartItem.innerHTML = `
-      <div class="cart-item-image">${item.image}</div>
+      <div class="cart-item-image">
+        <span class="cart-item-icon">${item.image}</span>
+      </div>
       <div class="cart-item-details">
-        <h4>${item.title}</h4>
+        <h4 class="cart-item-title">${item.title}</h4>
         <div class="cart-item-price">¥${item.price.toLocaleString()}</div>
         <div class="cart-item-quantity">
-          <button class="quantity-btn minus" data-id="${item.id}">-</button>
-          <span>${item.quantity}</span>
-          <button class="quantity-btn plus" data-id="${item.id}">+</button>
+          <button class="quantity-btn minus" data-id="${item.id}">−</button>
+          <span class="quantity-number">${item.quantity}</span>
+          <button class="quantity-btn plus" data-id="${item.id}">＋</button>
         </div>
       </div>
-      <button class="cart-item-remove" data-id="${item.id}">×</button>
+      <button class="cart-item-remove" data-id="${item.id}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     `;
 
     // イベントリスナー追加
@@ -1246,6 +1262,33 @@ class PremiumECommerceApp {
         }
       });
     });
+  }
+
+  // 決済処理
+  checkout() {
+    if (this.cart.length === 0) {
+      alert('カートが空です');
+      return;
+    }
+
+    // 決済処理のシミュレーション
+    const checkoutBtn = document.querySelector('.checkout-btn');
+    const originalText = checkoutBtn.innerHTML;
+    
+    checkoutBtn.innerHTML = '<span>処理中...</span>';
+    checkoutBtn.disabled = true;
+    
+    setTimeout(() => {
+      // カートをクリア
+      this.cart = [];
+      this.updateCart();
+      this.closeCart();
+      this.showPurchaseSuccess();
+      
+      // ボタンを元に戻す
+      checkoutBtn.innerHTML = originalText;
+      checkoutBtn.disabled = false;
+    }, 2000);
   }
 
   // 購入完了アニメーション
